@@ -14,7 +14,7 @@
   }
 }(this, function ($, SimpleModule, simpleHotkeys, simpleUploader) {
 
-var BlockquoteButton, BoldButton, Button, CodeButton, CodePopover, ColorButton, Formatter, HrButton, ImageButton, ImagePopover, IndentButton, Indentation, InputManager, ItalicButton, Keystroke, LinkButton, LinkPopover, ListButton, OrderListButton, OutdentButton, Popover, Selection, Simditor, SourceButton, StrikethroughButton, TableButton, TitleButton, Toolbar, UnderlineButton, UndoManager, UnorderListButton, Util,
+var BlockquoteButton, BoldButton, Button, CodeButton, CodePopover, ColorButton, Formatter, HrButton, ImageButton, ImagePopover, IndentButton, Indentation, InputManager, ItalicButton, Keystroke, LinkButton, LinkPopover, ListButton, OrderListButton, OutdentButton, Popover, Selection, Simditor, SourceButton, StrikethroughButton, TableButton, TitleButton, Toolbar, UnderlineButton, UndoManager, UnorderListButton, UploadButton, Util,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
@@ -5157,6 +5157,27 @@ TableButton = (function(superClass) {
 })(Button);
 
 Simditor.Toolbar.addButton(TableButton);
+
+UploadButton = (function(superClass) {
+  extend(UploadButton, superClass);
+
+  function UploadButton() {
+    return UploadButton.__super__.constructor.apply(this, arguments);
+  }
+
+  UploadButton.prototype.name = 'upload';
+
+  UploadButton.prototype.icon = 'upload';
+
+  UploadButton.prototype.command = function() {
+    return this.editor.trigger('onuploadclick');
+  };
+
+  return UploadButton;
+
+})(Simditor.Button);
+
+Simditor.Toolbar.addButton(UploadButton);
 
 StrikethroughButton = (function(superClass) {
   extend(StrikethroughButton, superClass);
