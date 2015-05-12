@@ -15,14 +15,14 @@ class ColorButton extends Button
   renderMenu: ->
     $('''
       <ul class="color-list">
-        <li><a href="javascript:;" class="font-color font-color-1" data-color=""></a></li>
-        <li><a href="javascript:;" class="font-color font-color-2" data-color=""></a></li>
-        <li><a href="javascript:;" class="font-color font-color-3" data-color=""></a></li>
-        <li><a href="javascript:;" class="font-color font-color-4" data-color=""></a></li>
-        <li><a href="javascript:;" class="font-color font-color-5" data-color=""></a></li>
-        <li><a href="javascript:;" class="font-color font-color-6" data-color=""></a></li>
-        <li><a href="javascript:;" class="font-color font-color-7" data-color=""></a></li>
-        <li><a href="javascript:;" class="font-color font-color-default" data-color=""></a></li>
+        <li><a  class="font-color font-color-1" data-color=""></a></li>
+        <li><a  class="font-color font-color-2" data-color=""></a></li>
+        <li><a  class="font-color font-color-3" data-color=""></a></li>
+        <li><a  class="font-color font-color-4" data-color=""></a></li>
+        <li><a  class="font-color font-color-5" data-color=""></a></li>
+        <li><a  class="font-color font-color-6" data-color=""></a></li>
+        <li><a  class="font-color font-color-7" data-color=""></a></li>
+        <li><a  class="font-color font-color-default" data-color=""></a></li>
       </ul>
     ''').appendTo(@menuWrapper)
 

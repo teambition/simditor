@@ -1869,9 +1869,7 @@ Toolbar = (function(superClass) {
     }
     this._render();
     this.list.on('click', (function(_this) {
-      return function(e) {
-        return false;
-      };
+      return function(e) {};
     })(this));
     this.wrapper.on('mousedown', (function(_this) {
       return function(e) {
@@ -2184,10 +2182,6 @@ Indentation = (function(superClass) {
 Simditor = (function(superClass) {
   extend(Simditor, superClass);
 
-  function Simditor() {
-    return Simditor.__super__.constructor.apply(this, arguments);
-  }
-
   Simditor.connect(Util);
 
   Simditor.connect(InputManager);
@@ -2213,6 +2207,22 @@ Simditor = (function(superClass) {
     params: {},
     upload: false
   };
+
+  function Simditor(opts) {
+    var language, list, ref;
+    if (opts == null) {
+      opts = {};
+    }
+    language = opts.language || '';
+    language = language.toLowerCase();
+    list = ['zh', 'en', 'ja'];
+    if (ref = opts.language, indexOf.call(list, ref) >= 0) {
+      this.constructor.locale = this.opts.language;
+    } else {
+      this.constructor.locale = 'zh';
+    }
+    Simditor.__super__.constructor.call(this, opts);
+  }
 
   Simditor.prototype._init = function() {
     var e, editor, form, uploadOpts;
@@ -2406,7 +2416,7 @@ Simditor = (function(superClass) {
 })(SimpleModule);
 
 Simditor.i18n = {
-  'zh-CN': {
+  'zh': {
     'blockquote': '引用',
     'bold': '加粗文字',
     'code': '插入代码',
@@ -2444,7 +2454,90 @@ Simditor.i18n = {
     'title': '标题',
     'source': 'HTML源代码',
     'normalText': '普通文本',
-    'underline': '下划线文字'
+    'underline': '下划线文字',
+    'upload': '上传附件'
+  },
+  'en': {
+    'blockquote': 'quote.',
+    'bold': 'bold.',
+    'code': 'insert code',
+    'color': 'color of text',
+    'hr': 'dividing line',
+    'image': 'insert images',
+    'externalImage': 'link images',
+    'uploadImage': 'upload images',
+    'uploadFailed': 'upload failed',
+    'uploadError': 'upload errored',
+    'imageUrl': 'url of image',
+    'imageSize': 'size of image',
+    'imageAlt': 'description of image',
+    'restoreImageSize': 'restore size of image',
+    'uploading': 'uploading',
+    'indent': 'indent',
+    'outdent': 'outdent',
+    'italic': 'italic',
+    'link': 'link',
+    'text': 'text',
+    'linkText': 'text link',
+    'linkUrl': 'url link',
+    'removeLink': 'remove link',
+    'ol': 'orderl list',
+    'ul': 'unordered list',
+    'strikethrough': 'strikethrough',
+    'table': 'table',
+    'deleteRow': 'delete row',
+    'insertRowAbove': 'insert row above',
+    'insertRowBelow': 'insert row below',
+    'deleteColumn': 'delete column',
+    'insertColumnLeft': 'insert column from left',
+    'insertColumnRight': 'insert column from right',
+    'deleteTable': 'delete table',
+    'title': 'title',
+    'source': 'HTML source',
+    'normalText': 'normal text',
+    'underline': 'underline',
+    'upload': 'upload attachment'
+  },
+  'ja': {
+    'blockquote': '引用',
+    'bold': '肥大文字',
+    'code': '挿入コード',
+    'color': '文字色',
+    'hr': '分離線',
+    'image': '画像を挿入',
+    'externalImage': 'チェーン画像',
+    'uploadImage': '画像をアップロード',
+    'uploadFailed': 'アップロードが失敗しました',
+    'uploadError': 'アップロードが間違いました',
+    'imageUrl': '画像のアドレス',
+    'imageSize': '画像サイズ',
+    'imageAlt': '写真の説明',
+    'restoreImageSize': '還元画像サイズ',
+    'uploading': 'アップしている',
+    'indent': '右インデント',
+    'outdent': '左インデント',
+    'italic': '下付き文字',
+    'link': '挿入リンク',
+    'text': 'テキスト',
+    'linkText': 'リンク文字',
+    'linkUrl': 'アドレス',
+    'removeLink': '削除リンク',
+    'ol': '秩序リスト',
+    'ul': '無秩序リスト',
+    'strikethrough': '削除線文字',
+    'table': '表',
+    'deleteRow': '削除行',
+    'insertRowAbove': '上で挿入行',
+    'insertRowBelow': '下に挿入行',
+    'deleteColumn': '列を削除する',
+    'insertColumnLeft': '左に挿入列',
+    'insertColumnRight': '右挿入列',
+    'deleteTable': '削除表',
+    'title': '標題',
+    'source': 'HTMLソースコード',
+    'normalText': '普通のテキスト',
+    'underline': '下線文字',
+    'upload': '添付ファイルをアップロード'
   }
 };
 
@@ -2452,9 +2545,9 @@ Button = (function(superClass) {
   extend(Button, superClass);
 
   Button.prototype._tpl = {
-    item: '<li><a tabindex="-1" unselectable="on" class="toolbar-item" href="javascript:;"><span></span></a></li>',
+    item: '<li><a tabindex="-1" unselectable="on" class="toolbar-item"><span></span></a></li>',
     menuWrapper: '<div class="toolbar-menu"></div>',
-    menuItem: '<li><a tabindex="-1" unselectable="on" class="menu-item" href="javascript:;"><span></span></a></li>',
+    menuItem: '<li><a tabindex="-1" unselectable="on" class="menu-item"><span></span></a></li>',
     separator: '<li><span class="separator"></span></li>'
   };
 
@@ -2527,7 +2620,6 @@ Button = (function(superClass) {
         _this.editor.toolbar.wrapper.removeClass('menu-on');
         param = btn.data('param');
         _this.command(param);
-        return false;
       };
     })(this));
     this.wrapper.on('mousedown', 'a.menu-item', (function(_this) {
@@ -3151,7 +3243,7 @@ ColorButton = (function(superClass) {
   };
 
   ColorButton.prototype.renderMenu = function() {
-    $('<ul class="color-list">\n  <li><a href="javascript:;" class="font-color font-color-1" data-color=""></a></li>\n  <li><a href="javascript:;" class="font-color font-color-2" data-color=""></a></li>\n  <li><a href="javascript:;" class="font-color font-color-3" data-color=""></a></li>\n  <li><a href="javascript:;" class="font-color font-color-4" data-color=""></a></li>\n  <li><a href="javascript:;" class="font-color font-color-5" data-color=""></a></li>\n  <li><a href="javascript:;" class="font-color font-color-6" data-color=""></a></li>\n  <li><a href="javascript:;" class="font-color font-color-7" data-color=""></a></li>\n  <li><a href="javascript:;" class="font-color font-color-default" data-color=""></a></li>\n</ul>').appendTo(this.menuWrapper);
+    $('<ul class="color-list">\n  <li><a  class="font-color font-color-1" data-color=""></a></li>\n  <li><a  class="font-color font-color-2" data-color=""></a></li>\n  <li><a  class="font-color font-color-3" data-color=""></a></li>\n  <li><a  class="font-color font-color-4" data-color=""></a></li>\n  <li><a  class="font-color font-color-5" data-color=""></a></li>\n  <li><a  class="font-color font-color-6" data-color=""></a></li>\n  <li><a  class="font-color font-color-7" data-color=""></a></li>\n  <li><a  class="font-color font-color-default" data-color=""></a></li>\n</ul>').appendTo(this.menuWrapper);
     this.menuWrapper.on('mousedown', '.color-list', function(e) {
       return false;
     });
@@ -3783,7 +3875,7 @@ LinkPopover = (function(superClass) {
 
   LinkPopover.prototype.render = function() {
     var tpl;
-    tpl = "<div class=\"link-settings\">\n  <div class=\"settings-field\">\n    <label>" + (this._t('text')) + "</label>\n    <input class=\"link-text\" type=\"text\"/>\n    <a class=\"btn-unlink\" href=\"javascript:;\" title=\"" + (this._t('removeLink')) + "\" tabindex=\"-1\"><span class=\"simditor-icon simditor-icon-unlink\"></span></a>\n  </div>\n  <div class=\"settings-field\">\n    <label>" + (this._t('linkUrl')) + "</label>\n    <input class=\"link-url\" type=\"text\"/>\n  </div>\n</div>";
+    tpl = "<div class=\"link-settings\">\n  <div class=\"settings-field\">\n    <label>" + (this._t('text')) + "</label>\n    <input class=\"link-text\" type=\"text\"/>\n    <a class=\"btn-unlink\"  title=\"" + (this._t('removeLink')) + "\" tabindex=\"-1\"><span class=\"simditor-icon simditor-icon-unlink\"></span></a>\n  </div>\n  <div class=\"settings-field\">\n    <label>" + (this._t('linkUrl')) + "</label>\n    <input class=\"link-url\" type=\"text\"/>\n  </div>\n</div>";
     this.el.addClass('link-popover').append(tpl);
     this.textEl = this.el.find('.link-text');
     this.urlEl = this.el.find('.link-url');
@@ -4251,6 +4343,22 @@ ImageButton = (function(superClass) {
     return $img;
   };
 
+  ImageButton.prototype.insertImage = function(src) {
+    var $img;
+    $img = this.createImage();
+    this.loadImage($img, src, (function(_this) {
+      return function() {
+        _this.editor.trigger('valuechanged');
+        _this.editor.util.reflow($img);
+        return _this.popover.one('popovershow', function() {
+          _this.popover.srcEl.focus();
+          return _this.popover.srcEl[0].select();
+        });
+      };
+    })(this));
+    return $img;
+  };
+
   ImageButton.prototype.command = function(src) {
     var $img;
     $img = this.createImage();
@@ -4285,7 +4393,7 @@ ImagePopover = (function(superClass) {
 
   ImagePopover.prototype.render = function() {
     var tpl;
-    tpl = "<div class=\"link-settings\">\n  <div class=\"settings-field\">\n    <label>" + (this._t('imageUrl')) + "</label>\n    <input class=\"image-src\" type=\"text\" tabindex=\"1\" />\n    <a class=\"btn-upload\" href=\"javascript:;\" title=\"" + (this._t('uploadImage')) + "\" tabindex=\"-1\">\n      <span class=\"simditor-icon simditor-icon-upload\"></span>\n    </a>\n  </div>\n  <div class='settings-field'>\n    <label>" + (this._t('imageAlt')) + "</label>\n    <input class=\"image-alt\" id=\"image-alt\" type=\"text\" tabindex=\"1\" />\n  </div>\n  <div class=\"settings-field\">\n    <label>" + (this._t('imageSize')) + "</label>\n    <input class=\"image-size\" id=\"image-width\" type=\"text\" tabindex=\"2\" />\n    <span class=\"times\">×</span>\n    <input class=\"image-size\" id=\"image-height\" type=\"text\" tabindex=\"3\" />\n    <a class=\"btn-restore\" href=\"javascript:;\" title=\"" + (this._t('restoreImageSize')) + "\" tabindex=\"-1\">\n      <span class=\"simditor-icon simditor-icon-undo\"></span>\n    </a>\n  </div>\n</div>";
+    tpl = "<div class=\"link-settings\">\n  <div class=\"settings-field\">\n    <label>" + (this._t('imageUrl')) + "</label>\n    <input class=\"image-src\" type=\"text\" tabindex=\"1\" />\n    <a class=\"btn-upload\"  title=\"" + (this._t('uploadImage')) + "\" tabindex=\"-1\">\n      <span class=\"simditor-icon simditor-icon-upload\"></span>\n    </a>\n  </div>\n  <div class='settings-field'>\n    <label>" + (this._t('imageAlt')) + "</label>\n    <input class=\"image-alt\" id=\"image-alt\" type=\"text\" tabindex=\"1\" />\n  </div>\n  <div class=\"settings-field\">\n    <label>" + (this._t('imageSize')) + "</label>\n    <input class=\"image-size\" id=\"image-width\" type=\"text\" tabindex=\"2\" />\n    <span class=\"times\">×</span>\n    <input class=\"image-size\" id=\"image-height\" type=\"text\" tabindex=\"3\" />\n    <a class=\"btn-restore\"  title=\"" + (this._t('restoreImageSize')) + "\" tabindex=\"-1\">\n      <span class=\"simditor-icon simditor-icon-undo\"></span>\n    </a>\n  </div>\n</div>";
     this.el.addClass('image-popover').append(tpl);
     this.srcEl = this.el.find('.image-src');
     this.widthEl = this.el.find('#image-width');
@@ -4834,7 +4942,7 @@ TableButton = (function(superClass) {
   };
 
   TableButton.prototype.renderMenu = function() {
-    $("<div class=\"menu-create-table\">\n</div>\n<div class=\"menu-edit-table\">\n  <ul>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"deleteRow\"><span>" + (this._t('deleteRow')) + "</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"insertRowAbove\"><span>" + (this._t('insertRowAbove')) + " ( Ctrl + Alt + ↑ )</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"insertRowBelow\"><span>" + (this._t('insertRowBelow')) + " ( Ctrl + Alt + ↓ )</span></a></li>\n    <li><span class=\"separator\"></span></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"deleteCol\"><span>" + (this._t('deleteColumn')) + "</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"insertColLeft\"><span>" + (this._t('insertColumnLeft')) + " ( Ctrl + Alt + ← )</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"insertColRight\"><span>" + (this._t('insertColumnRight')) + " ( Ctrl + Alt + → )</span></a></li>\n    <li><span class=\"separator\"></span></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"deleteTable\"><span>" + (this._t('deleteTable')) + "</span></a></li>\n  </ul>\n</div>").appendTo(this.menuWrapper);
+    $("<div class=\"menu-create-table\">\n</div>\n<div class=\"menu-edit-table\">\n  <ul>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\"  data-param=\"deleteRow\"><span>" + (this._t('deleteRow')) + "</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\"  data-param=\"insertRowAbove\"><span>" + (this._t('insertRowAbove')) + " ( Ctrl + Alt + ↑ )</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\"  data-param=\"insertRowBelow\"><span>" + (this._t('insertRowBelow')) + " ( Ctrl + Alt + ↓ )</span></a></li>\n    <li><span class=\"separator\"></span></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\"  data-param=\"deleteCol\"><span>" + (this._t('deleteColumn')) + "</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\"  data-param=\"insertColLeft\"><span>" + (this._t('insertColumnLeft')) + " ( Ctrl + Alt + ← )</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\"  data-param=\"insertColRight\"><span>" + (this._t('insertColumnRight')) + " ( Ctrl + Alt + → )</span></a></li>\n    <li><span class=\"separator\"></span></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\"  data-param=\"deleteTable\"><span>" + (this._t('deleteTable')) + "</span></a></li>\n  </ul>\n</div>").appendTo(this.menuWrapper);
     this.createMenu = this.menuWrapper.find('.menu-create-table');
     this.editMenu = this.menuWrapper.find('.menu-edit-table');
     this.createTable(6, 6).appendTo(this.createMenu);

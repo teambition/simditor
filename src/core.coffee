@@ -18,6 +18,16 @@ class Simditor extends SimpleModule
     params: {}
     upload: false
 
+  constructor: (opts = {}) ->
+    language = opts.language or ''
+    language = language.toLowerCase()
+    list = ['zh', 'en', 'ja']
+    if opts.language in list
+      @constructor.locale = @opts.language
+    else
+      @constructor.locale = 'zh'
+    super opts
+
   _init: ->
     @textarea = $(@opts.textarea)
     @opts.placeholder = @opts.placeholder || @textarea.attr('placeholder')
