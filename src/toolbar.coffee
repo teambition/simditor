@@ -23,7 +23,7 @@ class Toolbar extends SimpleModule
     @_render()
 
     @list.on 'click', (e) =>
-      false
+      return
 
     @wrapper.on 'mousedown', (e) =>
       @list.find('.menu-on').removeClass('.menu-on')
