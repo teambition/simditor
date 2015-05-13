@@ -2209,15 +2209,15 @@ Simditor = (function(superClass) {
   };
 
   function Simditor(opts) {
-    var language, list, ref;
+    var language, list;
     if (opts == null) {
       opts = {};
     }
     language = opts.language || '';
     language = language.toLowerCase();
     list = ['zh', 'en', 'ja'];
-    if (ref = opts.language, indexOf.call(list, ref) >= 0) {
-      this.constructor.locale = this.opts.language;
+    if (indexOf.call(list, language) >= 0) {
+      this.constructor.locale = language;
     } else {
       this.constructor.locale = 'zh';
     }
@@ -2458,8 +2458,8 @@ Simditor.i18n = {
     'upload': '上传附件'
   },
   'en': {
-    'blockquote': 'quote.',
-    'bold': 'bold.',
+    'blockquote': 'quote',
+    'bold': 'bold',
     'code': 'insert code',
     'color': 'color of text',
     'hr': 'dividing line',
@@ -4343,9 +4343,9 @@ ImageButton = (function(superClass) {
     return $img;
   };
 
-  ImageButton.prototype.insertImage = function(src) {
+  ImageButton.prototype.insertImage = function(src, name) {
     var $img;
-    $img = this.createImage();
+    $img = this.createImage(name);
     this.loadImage($img, src, (function(_this) {
       return function() {
         _this.editor.trigger('valuechanged');

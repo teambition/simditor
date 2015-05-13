@@ -315,8 +315,8 @@ class ImageButton extends Button
 
     $img
 
-  insertImage: (src) ->
-    $img = @createImage()
+  insertImage: (src, name) ->
+    $img = @createImage(name)
 
     @loadImage $img, src, =>
       @editor.trigger 'valuechanged'
