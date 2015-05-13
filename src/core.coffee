@@ -22,8 +22,8 @@ class Simditor extends SimpleModule
     language = opts.language or ''
     language = language.toLowerCase()
     list = ['zh', 'en', 'ja']
-    if opts.language in list
-      @constructor.locale = @opts.language
+    if language in list
+      @constructor.locale = language
     else
       @constructor.locale = 'zh'
     super opts

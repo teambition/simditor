@@ -41,8 +41,8 @@ Simditor.i18n =
     'underline': '下划线文字'
     'upload': '上传附件'
   'en':
-    'blockquote': 'quote.'
-    'bold': 'bold.'
+    'blockquote': 'quote'
+    'bold': 'bold'
     'code': 'insert code'
     'color': 'color of text'
     'hr': 'dividing line'
