@@ -340,7 +340,7 @@ class ImagePopover extends Popover
         <div class="settings-field">
           <label>#{ @_t 'imageUrl' }</label>
           <input class="image-src" type="text" tabindex="1" />
-          <a class="btn-upload" href="javascript:;" title="#{ @_t 'uploadImage' }" tabindex="-1">
+          <a class="btn-upload"  title="#{ @_t 'uploadImage' }" tabindex="-1">
             <span class="simditor-icon simditor-icon-upload"></span>
           </a>
         </div>
@@ -353,7 +353,7 @@ class ImagePopover extends Popover
           <input class="image-size" id="image-width" type="text" tabindex="2" />
           <span class="times">×</span>
           <input class="image-size" id="image-height" type="text" tabindex="3" />
-          <a class="btn-restore" href="javascript:;" title="#{ @_t 'restoreImageSize' }" tabindex="-1">
+          <a class="btn-restore"  title="#{ @_t 'restoreImageSize' }" tabindex="-1">
             <span class="simditor-icon simditor-icon-undo"></span>
           </a>
         </div>

@@ -19,6 +19,10 @@ class Simditor extends SimpleModule
     upload: false
     indentWidth: 40
 
+  constructor: (opts) ->
+    @constructor.locale = opts.language if opts?.language
+    super opts
+
   _init: ->
     @textarea = $(@opts.textarea)
     @opts.placeholder = @opts.placeholder || @textarea.attr('placeholder')
