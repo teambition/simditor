@@ -205,15 +205,15 @@ class TableButton extends Button
       </div>
       <div class="menu-edit-table">
         <ul>
-          <li><a tabindex="-1" unselectable="on" class="menu-item" href="javascript:;" data-param="deleteRow"><span>#{ @_t 'deleteRow' }</span></a></li>
-          <li><a tabindex="-1" unselectable="on" class="menu-item" href="javascript:;" data-param="insertRowAbove"><span>#{ @_t 'insertRowAbove' } ( Ctrl + Alt + ↑ )</span></a></li>
-          <li><a tabindex="-1" unselectable="on" class="menu-item" href="javascript:;" data-param="insertRowBelow"><span>#{ @_t 'insertRowBelow' } ( Ctrl + Alt + ↓ )</span></a></li>
+          <li><a tabindex="-1" unselectable="on" class="menu-item"  data-param="deleteRow"><span>#{ @_t 'deleteRow' }</span></a></li>
+          <li><a tabindex="-1" unselectable="on" class="menu-item"  data-param="insertRowAbove"><span>#{ @_t 'insertRowAbove' } ( Ctrl + Alt + ↑ )</span></a></li>
+          <li><a tabindex="-1" unselectable="on" class="menu-item"  data-param="insertRowBelow"><span>#{ @_t 'insertRowBelow' } ( Ctrl + Alt + ↓ )</span></a></li>
           <li><span class="separator"></span></li>
-          <li><a tabindex="-1" unselectable="on" class="menu-item" href="javascript:;" data-param="deleteCol"><span>#{ @_t 'deleteColumn' }</span></a></li>
-          <li><a tabindex="-1" unselectable="on" class="menu-item" href="javascript:;" data-param="insertColLeft"><span>#{ @_t 'insertColumnLeft' } ( Ctrl + Alt + ← )</span></a></li>
-          <li><a tabindex="-1" unselectable="on" class="menu-item" href="javascript:;" data-param="insertColRight"><span>#{ @_t 'insertColumnRight' } ( Ctrl + Alt + → )</span></a></li>
+          <li><a tabindex="-1" unselectable="on" class="menu-item"  data-param="deleteCol"><span>#{ @_t 'deleteColumn' }</span></a></li>
+          <li><a tabindex="-1" unselectable="on" class="menu-item"  data-param="insertColLeft"><span>#{ @_t 'insertColumnLeft' } ( Ctrl + Alt + ← )</span></a></li>
+          <li><a tabindex="-1" unselectable="on" class="menu-item"  data-param="insertColRight"><span>#{ @_t 'insertColumnRight' } ( Ctrl + Alt + → )</span></a></li>
           <li><span class="separator"></span></li>
-          <li><a tabindex="-1" unselectable="on" class="menu-item" href="javascript:;" data-param="deleteTable"><span>#{ @_t 'deleteTable' }</span></a></li>
+          <li><a tabindex="-1" unselectable="on" class="menu-item"  data-param="deleteTable"><span>#{ @_t 'deleteTable' }</span></a></li>
         </ul>
       </div>
     """).appendTo(@menuWrapper)
