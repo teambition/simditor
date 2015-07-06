@@ -21,6 +21,11 @@ class LinkButton extends Button
     return @active unless $node?
 
     showPopover = true
+    if $node.is(@htmlTag) and $node.is('[rel=nofollow]')
+      text = $node.text()
+      text = 'http://' + text unless /https?:\/\/|^\//ig.test(text) or !text
+      $node.attr('href', text)
+
     if !$node.is(@htmlTag) or $node.is('[class^="simditor-"]')
       @setActive false
       showPopover = false
@@ -103,15 +108,20 @@ class LinkPopover extends Popover
 
     @textEl.on 'keyup', (e) =>
       return if e.which == 13
+
       @target.text @textEl.val()
+      isSame = @urlEl.val().trim() is @formatUrl(@textEl.val().trim())
+      @target[if isSame then 'attr' else 'removeAttr'] 'rel', 'nofollow'
 
     @urlEl.on 'keyup', (e) =>
       return if e.which == 13
 
       val = @urlEl.val()
-      val = 'http://' + val unless /https?:\/\/|^\//ig.test(val) or !val
+      val = @formatUrl(val)
+      isSame = val.trim() is @formatUrl(@textEl.val().trim())
 
       @target.attr 'href', val
+      @target[if isSame then 'attr' else 'removeAttr'] 'rel', 'nofollow'
 
     $([@urlEl[0], @textEl[0]]).on 'keydown', (e) =>
       if e.which == 13 or e.which == 27 or (!e.shiftKey and e.which == 9 and $(e.target).hasClass('link-url'))
@@ -131,6 +141,10 @@ class LinkPopover extends Popover
       range = document.createRange()
       @editor.selection.setRangeAfter txtNode, range
       @editor.trigger 'valuechanged'
+
+  formatUrl: (url) ->
+    url = 'http://' + url unless /https?:\/\/|^\//ig.test(url) or !url
+    url
 
   show: (args...) ->
     super args...

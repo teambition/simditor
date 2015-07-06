@@ -15,7 +15,7 @@ class Formatter extends SimpleModule
       'h2', 'h3', 'h4', 'hr']
     @_allowedAttributes = @opts.allowedAttributes ||
       img: ['src', 'alt', 'width', 'height', 'data-non-image']
-      a: ['href', 'target']
+      a: ['href', 'target', 'rel']
       font: ['color']
       code: ['class']
     @_allowedStyles = @opts.allowedStyles ||
