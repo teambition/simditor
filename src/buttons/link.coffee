@@ -62,7 +62,9 @@ class LinkButton extends Button
   setLink: ->
     text = @node.text()
     href = @node.attr('href')
-    @node.attr('href', text) if href isnt text
+    if href isnt text
+      text = 'http://' + text if text and !/https?:\/\/|^\//ig.test(text)
+      @node.attr('href', text)
 
 
 class LinkPopover extends Popover
