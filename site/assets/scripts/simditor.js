@@ -796,16 +796,37 @@ InputManager = (function(superClass) {
     }).addClass('simditor-paste-area').appendTo(this.editor.el);
     $(document).on('selectionchange.simditor' + this.editor.id, (function(_this) {
       return function(e) {
+        var triggerEvent;
         if (!_this.focused) {
           return;
         }
-        return _this.throttledSelectionChanged();
+        triggerEvent = function() {
+          if (_this._selectionTimer) {
+            clearTimeout(_this._selectionTimer);
+            _this._selectionTimer = null;
+          }
+          if (_this.editor.selection._selection.rangeCount > 0) {
+            return _this.throttledSelectionChanged();
+          } else {
+            return _this._selectionTimer = setTimeout(function() {
+              _this._selectionTimer = null;
+              if (_this.focused) {
+                return triggerEvent();
+              }
+            }, 10);
+          }
+        };
+        return triggerEvent();
       };
     })(this));
     this.editor.on('valuechanged', (function(_this) {
       return function() {
+        var $rootBlocks;
         _this.lastCaretPosition = null;
-        if (_this.focused && !_this.editor.selection.blockNodes().length) {
+        $rootBlocks = _this.editor.body.children().filter(function(i, node) {
+          return _this.editor.util.isBlockNode(node);
+        });
+        if (_this.focused && $rootBlocks.length === 0) {
           _this.editor.selection.save();
           _this.editor.formatter.format();
           _this.editor.selection.restore();
@@ -2465,6 +2486,7 @@ Simditor = (function(superClass) {
   };
 
   Simditor.prototype.focus = function() {
+    var $blockEl, range;
     if (!(this.body.is(':visible') && this.body.is('[contenteditable]'))) {
       this.el.find('textarea:visible').focus();
       return;
@@ -2472,6 +2494,12 @@ Simditor = (function(superClass) {
     if (this.inputManager.lastCaretPosition) {
       return this.undoManager.caretPosition(this.inputManager.lastCaretPosition);
     } else {
+      $blockEl = this.body.children().last();
+      if (!$blockEl.is('p')) {
+        $blockEl = $('<p/>').append(this.util.phBr).appendTo(this.body);
+      }
+      range = document.createRange();
+      this.selection.setRangeAtEndOf($blockEl, range);
       return this.body.focus();
     }
   };
@@ -3420,6 +3448,9 @@ BlockquoteButton = (function(superClass) {
   BlockquoteButton.prototype.command = function() {
     var $rootNodes, clearCache, nodeCache;
     $rootNodes = this.editor.selection.rootNodes();
+    $rootNodes = $rootNodes.filter(function(i, node) {
+      return !$(node).parent().is('blockquote');
+    });
     this.editor.selection.save();
     nodeCache = [];
     clearCache = (function(_this) {
@@ -3532,10 +3563,10 @@ CodeButton = (function(superClass) {
   };
 
   CodeButton.prototype.command = function() {
-    var $rootNodes, clearCache, nodeCache, pres;
+    var $rootNodes, clearCache, nodeCache, resultNodes;
     $rootNodes = this.editor.selection.rootNodes();
     nodeCache = [];
-    pres = [];
+    resultNodes = [];
     clearCache = (function(_this) {
       return function() {
         var $pre;
@@ -3543,17 +3574,18 @@ CodeButton = (function(superClass) {
           return;
         }
         $pre = $("<" + _this.htmlTag + "/>").insertBefore(nodeCache[0]).text(_this.editor.formatter.clearHtml(nodeCache));
-        pres.push($pre[0]);
+        resultNodes.push($pre[0]);
         return nodeCache.length = 0;
       };
     })(this);
     $rootNodes.each((function(_this) {
       return function(i, node) {
-        var $node;
+        var $node, $p;
         $node = $(node);
         if ($node.is(_this.htmlTag)) {
           clearCache();
-          return $('<p/>').append($node.html().replace('\n', '<br/>')).replaceAll($node);
+          $p = $('<p/>').append($node.html().replace('\n', '<br/>')).replaceAll($node);
+          return resultNodes.push($p[0]);
         } else if ($node.is(_this.disableTag) || _this.editor.util.isDecoratedNode($node) || $node.is('blockquote')) {
           return clearCache();
         } else {
@@ -3562,7 +3594,7 @@ CodeButton = (function(superClass) {
       };
     })(this));
     clearCache();
-    this.editor.selection.setRangeAtEndOf($(pres).last());
+    this.editor.selection.setRangeAtEndOf($(resultNodes).last());
     return this.editor.trigger('valuechanged');
   };
 
@@ -3743,7 +3775,7 @@ LinkButton = (function(superClass) {
         target: '_blank',
         text: linkText || this._t('linkText')
       });
-      if (this.editor.selection.blockNodes().length === 1) {
+      if (this.editor.selection.blockNodes().length > 0) {
         range.insertNode($link[0]);
       } else {
         $newBlock = $('<p/>').append($link);
