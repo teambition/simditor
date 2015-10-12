@@ -19,6 +19,7 @@ module.exports = (grunt) ->
             'src/util.coffee'
             'src/toolbar.coffee'
             'src/indentation.coffee'
+            'src/clipboard.coffee'
             'src/core.coffee'
             'src/i18n.coffee'
             'src/buttons/button.coffee'
@@ -48,7 +49,7 @@ module.exports = (grunt) ->
         dest: 'site/assets/scripts/'
         ext: '.js'
 
-      muduleSpec:
+      moduleSpec:
         expand: true
         flatten: true
         src: 'spec/src/*.coffee'
@@ -258,9 +259,9 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-banner'
   grunt.loadNpmTasks 'grunt-curl'
 
-  grunt.registerTask 'default', ['site', 'express', 'jasmine:test:build', 'watch']
+  grunt.registerTask 'default', ['site', 'express', 'watch']
   grunt.registerTask 'site', ['sass', 'coffee', 'umd', 'copy:vendor', 'copy:scripts', 'copy:styles', 'usebanner', 'jekyll']
-  grunt.registerTask 'test', ['sass', 'coffee', 'umd', 'jasmine']
+  grunt.registerTask 'test', ['coffee:moduleSpec', 'coffee:buttonSpec', 'jasmine']
   grunt.registerTask 'package', ['clean:package', 'copy:package', 'uglify:simditor', 'compress']
 
   grunt.registerTask 'fonticons', ['curl']

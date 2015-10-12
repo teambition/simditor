@@ -10,7 +10,7 @@ class Indentation extends SimpleModule
     @editor = @_module
 
     # Tab to indent
-    @editor.inputManager.addKeystrokeHandler '9', '*', (e) =>
+    @editor.keystroke.add 'tab', '*', (e) =>
       codeButton = @editor.toolbar.findButton 'code'
       return unless @opts.tabIndent or (codeButton and codeButton.active)
 
@@ -52,7 +52,7 @@ class Indentation extends SimpleModule
     if $blockEl.is('pre')
       $pre = @editor.selection.containerNode()
       return unless $pre.is($blockEl) or $pre.closest('pre').is($blockEl)
-      @indentText range
+      @indentText @editor.selection.range()
     else if $blockEl.is('li')
       $parentLi = $blockEl.prev('li')
       return if $parentLi.length < 1

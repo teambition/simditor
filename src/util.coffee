@@ -32,10 +32,15 @@ class Util extends SimpleModule
     chrome = /chrome|crios/i.test(ua)
     safari = /safari/i.test(ua) && !chrome
     firefox = /firefox/i.test(ua)
+    edge = /edge/i.test(ua)
 
     if ie
       msie: true
       version: ua.match(/(msie |rv:)(\d+(\.\d+)?)/i)?[2] * 1
+    else if edge
+      edge: true
+      webkit: true
+      version: ua.match(/edge\/(\d+(\.\d+)?)/i)?[1] * 1
     else if chrome
       webkit: true
       chrome: true
@@ -166,7 +171,7 @@ class Util extends SimpleModule
       args = null
 
     throttled = ->
-      ctx = this
+      ctx = @
       args = arguments
       delta = new Date() - last
 
@@ -177,6 +182,13 @@ class Util extends SimpleModule
           timeoutID = setTimeout(call, wait - delta)
 
       rtn
+
+    throttled.clear = ->
+      return unless timeoutID
+      clearTimeout timeoutID
+      call()
+
+    throttled
 
   formatHTML: (html) ->
     re = /<(\/?)(.+?)(\/?)>/g
