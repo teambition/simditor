@@ -45,14 +45,16 @@ class UndoManager extends SimpleModule
       @throttledPushState()
 
     @editor.on 'selectionchanged', (e) =>
-      @_startPosition = null
-      @_endPosition = null
-
+      @resetCaretPosition()
       @update()
 
     @editor.on 'blur', (e) =>
-      @_startPosition = null
-      @_endPosition = null
+      @resetCaretPosition()
+
+
+  resetCaretPosition: ->
+    @_startPosition = null
+    @_endPosition = null
 
   startPosition: ->
     if @editor.selection._range
@@ -230,7 +232,7 @@ class UndoManager extends SimpleModule
         endOffset = caret.start[caret.start.length - 1]
 
       if !startContainer or !endContainer
-        throw new Error 'simditor: invalid caret state'
+        console?.warn? 'simditor: invalid caret state'
         return
 
       range = document.createRange()

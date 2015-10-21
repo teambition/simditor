@@ -30,6 +30,8 @@ class Clipboard extends SimpleModule
       @editor.inputManager.throttledValueChanged.clear()
       @editor.inputManager.throttledSelectionChanged.clear()
       @editor.undoManager.throttledPushState.clear()
+      @editor.selection.reset()
+      @editor.undoManager.resetCaretPosition()
 
       @pasting = true
       @_getPasteContent (pasteContent) =>
