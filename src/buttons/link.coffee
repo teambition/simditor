@@ -73,7 +73,7 @@ class LinkPopover extends Popover
     tpl = """
     <div class="link-settings">
       <div class="settings-field">
-        <label>#{ @_t 'text' }</label>
+        <label>#{ @_t 'linkText' }</label>
         <input class="link-text" type="text"/>
         <a class="btn-unlink" href="javascript:;" title="#{ @_t 'removeLink' }"
           tabindex="-1">
@@ -84,6 +84,13 @@ class LinkPopover extends Popover
         <label>#{ @_t 'linkUrl' }</label>
         <input class="link-url" type="text"/>
       </div>
+      <div class="settings-field">
+        <label>#{ @_t 'linkTarget'}</label>
+        <select class="link-target">
+          <option value="_blank">#{ @_t 'openLinkInNewWindow' } (_blank)</option>
+          <option value="_self">#{ @_t 'openLinkInCurrentWindow' } (_self)</option>
+        </select>
+      </div>
     </div>
     """
     @el.addClass('link-popover')
@@ -91,10 +98,12 @@ class LinkPopover extends Popover
     @textEl = @el.find '.link-text'
     @urlEl = @el.find '.link-url'
     @unlinkEl = @el.find '.btn-unlink'
+    @selectTarget = @el.find '.link-target'
 
     @textEl.on 'keyup', (e) =>
       return if e.which == 13
       @target.text @textEl.val()
+      @editor.inputManager.throttledValueChanged()
 
     @urlEl.on 'keyup', (e) =>
       return if e.which == 13
@@ -103,6 +112,7 @@ class LinkPopover extends Popover
       val = 'http://' + val unless /https?:\/\/|^\//ig.test(val) or !val
 
       @target.attr 'href', val
+      @editor.inputManager.throttledValueChanged()
 
     $([@urlEl[0], @textEl[0]]).on 'keydown', (e) =>
       if e.which == 13 or e.which == 27 or
@@ -111,7 +121,7 @@ class LinkPopover extends Popover
         range = document.createRange()
         @editor.selection.setRangeAfter @target, range
         @hide()
-        @editor.trigger 'valuechanged'
+        @editor.inputManager.throttledValueChanged()
 
     @unlinkEl.on 'click', (e) =>
       txtNode = document.createTextNode @target.text()
@@ -120,7 +130,11 @@ class LinkPopover extends Popover
 
       range = document.createRange()
       @editor.selection.setRangeAfter txtNode, range
-      @editor.trigger 'valuechanged'
+      @editor.inputManager.throttledValueChanged()
+
+    @selectTarget.on 'change', (e) =>
+      @target.attr 'target', @selectTarget.val()
+      @editor.inputManager.throttledValueChanged()
 
   show: (args...) ->
     super args...
