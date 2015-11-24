@@ -84,7 +84,8 @@ class LinkPopover extends Popover
         <label>#{ @_t 'linkUrl' }</label>
         <input class="link-url" type="text"/>
       </div>
-      <div class="settings-field">
+      <!-- Do not use this feature -->
+      <div class="settings-field" style="display: none">
         <label>#{ @_t 'linkTarget'}</label>
         <select class="link-target">
           <option value="_blank">#{ @_t 'openLinkInNewWindow' } (_blank)</option>
