@@ -15,7 +15,7 @@ class UploadButton extends ImageButton
       @popover.one 'popovershow', =>
         @popover.srcEl.focus()
         @popover.srcEl[0].select()
-
+    $img.attr({src: src})
     $img
 
   command: ->
