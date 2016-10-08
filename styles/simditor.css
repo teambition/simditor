@@ -1,5 +1,5 @@
 /*!
-* Simditor v3.3.6
+* Simditor v3.3.12
 * http://simditor.tower.im/
 * 2017-12-21
 */
@@ -757,7 +757,7 @@
   z-index: 106;
   padding: 0;
   text-align: left;
-  border: 1px solid transparent;
+  border: 1px solid rgba(0, 0, 0, 0);
   background-color: #fff;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
