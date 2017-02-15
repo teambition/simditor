@@ -4400,7 +4400,7 @@ ImageButton = (function(superClass) {
   };
 
   ImageButton.prototype._initUploader = function($uploadItem) {
-    var $input, createInput, uploadProgress;
+    var $input, acceptImageType, createInput, uploadProgress;
     if ($uploadItem == null) {
       $uploadItem = this.menuEl.find('.menu-item-upload-image');
     }
@@ -4409,6 +4409,7 @@ ImageButton = (function(superClass) {
       return;
     }
     $input = null;
+    acceptImageType = ['ANI', 'BMP', 'CAL', 'FAX', 'GIF', 'IMG', 'JBG', 'JPE', 'JPEG', 'JPG', 'MAC', 'PBM', 'PCD', 'PCX', 'PCT', 'PGM', 'PNG', 'PPM', 'PSD', 'RAS', 'TGA', 'TIFF', 'WMF'];
     createInput = (function(_this) {
       return function() {
         if ($input) {
@@ -4418,7 +4419,9 @@ ImageButton = (function(superClass) {
           type: 'file',
           title: _this._t('uploadImage'),
           multiple: true,
-          accept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg'
+          accept: acceptImageType.map(function(type) {
+            return 'image/' + type;
+          }).join()
         }).appendTo($uploadItem);
       };
     })(this);
