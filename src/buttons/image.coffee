@@ -98,13 +98,39 @@ class ImageButton extends Button
       return
 
     $input = null
+    acceptImageType = [
+      'ANI',
+      'BMP',
+      'CAL',
+      'FAX',
+      'GIF',
+      'IMG',
+      'JBG',
+      'JPE',
+      'JPEG',
+      'JPG',
+      'MAC',
+      'PBM',
+      'PCD',
+      'PCX',
+      'PCT',
+      'PGM',
+      'PNG',
+      'PPM',
+      'PSD',
+      'RAS',
+      'TGA',
+      'TIFF',
+      'WMF'
+    ]
+
     createInput = =>
       $input.remove() if $input
       $input = $ '<input/>',
         type: 'file'
         title: @_t('uploadImage')
         multiple: true
-        accept: 'image/*'
+        accept: acceptImageType.map((type) -> 'image/' + type).join()
       .appendTo($uploadItem)
 
     createInput()
