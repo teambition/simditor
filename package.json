@@ -1,22 +1,20 @@
 {
   "name": "tb.simditor",
   "version": "3.3.15",
-  "description": "A simple online editor",
-  "keywords": "editor simditor",
+  "description": "Editor forked from mycolorway/simditor.",
   "repository": {
     "type": "git",
-    "url": "git@github.com:mycolorway/simditor.git"
+    "url": "git@github.com:teambition/simditor.git"
   },
   "author": "farthinker <farthinker@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mycolorway/simditor/issues"
+    "url": "https://github.com/teambition/simditor/issues"
   },
   "scripts": {
     "test": "grunt test --verbose"
   },
   "main": "lib/simditor.js",
-  "homepage": "http://simditor.tower.im",
   "dependencies": {
     "jquery": "~2.1.4",
     "simple-hotkeys": "~1.0.3",
