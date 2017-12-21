@@ -14,7 +14,7 @@
   }
 }(this, function ($, SimpleModule, simpleHotkeys, simpleUploader) {
 
-var AlignmentButton, BlockquoteButton, BoldButton, Button, Clipboard, CodeButton, CodePopover, ColorButton, FontScaleButton, Formatter, HrButton, ImageButton, ImagePopover, IndentButton, Indentation, InputManager, ItalicButton, Keystroke, LinkButton, LinkPopover, ListButton, OrderListButton, OutdentButton, Popover, Selection, Simditor, StrikethroughButton, TableButton, TitleButton, Toolbar, UnderlineButton, UndoManager, UnorderListButton, UploadButton, Util,
+var ACCEPT_IMAGE_TYPES, AlignmentButton, BlockquoteButton, BoldButton, Button, Clipboard, CodeButton, CodePopover, ColorButton, FontScaleButton, Formatter, HrButton, ImageButton, ImagePopover, IndentButton, Indentation, InputManager, ItalicButton, Keystroke, LinkButton, LinkPopover, ListButton, OrderListButton, OutdentButton, Popover, Selection, Simditor, StrikethroughButton, TableButton, TitleButton, Toolbar, UnderlineButton, UndoManager, UnorderListButton, UploadButton, Util,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
@@ -4270,6 +4270,10 @@ LinkPopover = (function(superClass) {
 
 Simditor.Toolbar.addButton(LinkButton);
 
+ACCEPT_IMAGE_TYPES = ['ani', 'bmp', 'cal', 'fax', 'gif', 'img', 'jbg', 'jpe', 'jpeg', 'jpg', 'mac', 'pbm', 'pcd', 'pcx', 'pct', 'pgm', 'png', 'ppm', 'psd', 'ras', 'tga', 'tiff', 'wmf'].map(function(str) {
+  return "image/" + str;
+}).join(',');
+
 ImageButton = (function(superClass) {
   extend(ImageButton, superClass);
 
@@ -4400,7 +4404,7 @@ ImageButton = (function(superClass) {
   };
 
   ImageButton.prototype._initUploader = function($uploadItem) {
-    var $input, acceptImageType, createInput, uploadProgress;
+    var $input, createInput, uploadProgress;
     if ($uploadItem == null) {
       $uploadItem = this.menuEl.find('.menu-item-upload-image');
     }
@@ -4409,7 +4413,6 @@ ImageButton = (function(superClass) {
       return;
     }
     $input = null;
-    acceptImageType = ['ANI', 'BMP', 'CAL', 'FAX', 'GIF', 'IMG', 'JBG', 'JPE', 'JPEG', 'JPG', 'MAC', 'PBM', 'PCD', 'PCX', 'PCT', 'PGM', 'PNG', 'PPM', 'PSD', 'RAS', 'TGA', 'TIFF', 'WMF'];
     createInput = (function(_this) {
       return function() {
         if ($input) {
@@ -4419,9 +4422,7 @@ ImageButton = (function(superClass) {
           type: 'file',
           title: _this._t('uploadImage'),
           multiple: true,
-          accept: acceptImageType.map(function(type) {
-            return 'image/' + type;
-          }).join()
+          accept: ACCEPT_IMAGE_TYPES
         }).appendTo($uploadItem);
       };
     })(this);
@@ -4816,7 +4817,7 @@ ImagePopover = (function(superClass) {
           type: 'file',
           title: _this._t('uploadImage'),
           multiple: true,
-          accept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg'
+          accept: ACCEPT_IMAGE_TYPES
         }).appendTo($uploadBtn);
       };
     })(this);

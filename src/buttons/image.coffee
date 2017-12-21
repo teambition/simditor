@@ -1,3 +1,8 @@
+ACCEPT_IMAGE_TYPES = ['ani', 'bmp', 'cal', 'fax', 'gif', 'img', 'jbg', 'jpe',
+'jpeg', 'jpg', 'mac', 'pbm', 'pcd', 'pcx', 'pct', 'pgm', 'png', 'ppm', 'psd',
+'ras', 'tga', 'tiff', 'wmf']
+.map((str) -> "image/#{str}")
+.join(',')
 
 class ImageButton extends Button
 
@@ -98,31 +103,7 @@ class ImageButton extends Button
       return
 
     $input = null
-    acceptImageType = [
-      'ANI',
-      'BMP',
-      'CAL',
-      'FAX',
-      'GIF',
-      'IMG',
-      'JBG',
-      'JPE',
-      'JPEG',
-      'JPG',
-      'MAC',
-      'PBM',
-      'PCD',
-      'PCX',
-      'PCT',
-      'PGM',
-      'PNG',
-      'PPM',
-      'PSD',
-      'RAS',
-      'TGA',
-      'TIFF',
-      'WMF'
-    ]
+
 
     createInput = =>
       $input.remove() if $input
@@ -130,7 +111,7 @@ class ImageButton extends Button
         type: 'file'
         title: @_t('uploadImage')
         multiple: true
-        accept: acceptImageType.map((type) -> 'image/' + type).join()
+        accept: ACCEPT_IMAGE_TYPES
       .appendTo($uploadItem)
 
     createInput()
@@ -476,7 +457,7 @@ class ImagePopover extends Popover
         type: 'file'
         title: @_t('uploadImage')
         multiple: true
-        accept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg'
+        accept: ACCEPT_IMAGE_TYPES
       .appendTo($uploadBtn)
 
     createInput()
